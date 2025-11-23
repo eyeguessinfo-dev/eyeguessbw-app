@@ -13,7 +13,7 @@ export default function Hero() {
   return (
     <section 
       ref={containerRef}
-      className="min-h-screen relative overflow-hidden flex items-center justify-center"
+      className="min-h-screen relative overflow-hidden flex items-center justify-center pt-16 px-4 sm:px-6"
     >
       {/* Animated Gradient Background */}
       <div className="absolute inset-0 animate-gradient" />
@@ -30,7 +30,7 @@ export default function Hero() {
         }}
       />
       
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -41,14 +41,14 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.8 }}
-            className="text-5xl md:text-7xl font-bold tracking-tight mb-6"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-4 sm:mb-6"
           >
             Partnership,
             <motion.span
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.8 }}
-              className="block text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400"
+              className="block text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 mt-2 sm:mt-4"
             >
               Not Just Support.
             </motion.span>
@@ -58,7 +58,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7, duration: 0.8 }}
-            className="text-xl md:text-2xl text-gray-300 mb-12 max-w-2xl mx-auto leading-relaxed"
+            className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-8 sm:mb-12 max-w-2xl mx-auto leading-relaxed px-4"
           >
             Strategic advisory and content development services designed to scale your partnership ecosystem with precision and vision.
           </motion.p>
@@ -70,7 +70,7 @@ export default function Hero() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={scrollToPackages}
-            className="bg-white text-black px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors duration-200"
+            className="bg-white text-black px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-base sm:text-lg hover:bg-gray-100 transition-colors duration-200"
           >
             Explore Services
           </motion.button>
@@ -81,7 +81,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.2, duration: 0.8 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-20 max-w-4xl mx-auto"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-12 sm:mt-16 md:mt-20 max-w-4xl mx-auto"
         >
           {[
             { name: "Value-Based Support", price: "$49" },
@@ -94,10 +94,13 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.4 + index * 0.1 }}
               whileHover={{ y: -5 }}
-              className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 text-center hover:bg-white/10 transition-all duration-300"
+              className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4 sm:p-6 text-center hover:bg-white/10 transition-all duration-300"
             >
-              <h3 className="font-semibold text-lg mb-2">{pkg.name}</h3>
-              <div className="text-2xl font-bold text-white">{pkg.price}<span className="text-sm text-gray-400 font-normal">/month</span></div>
+              <h3 className="font-semibold text-base sm:text-lg mb-2">{pkg.name}</h3>
+              <div className="text-xl sm:text-2xl font-bold text-white">
+                {pkg.price}
+                <span className="text-xs sm:text-sm text-gray-400 font-normal ml-1">/month</span>
+              </div>
             </motion.div>
           ))}
         </motion.div>
@@ -110,7 +113,6 @@ export default function Hero() {
         transition={{ delay: 2 }}
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
       >
-        {/* Upside Down Pyramid with Eye */}
         <motion.div
           className="relative"
           animate={{
@@ -123,20 +125,17 @@ export default function Hero() {
           }}
         >
           <svg 
-            width="60" 
-            height="40" 
+            width="40" 
+            height="30" 
             viewBox="0 0 60 40"
-            className="text-white transform rotate-180"
+            className="text-white transform rotate-180 sm:w-[60px] sm:h-[40px]"
           >
-            {/* Pyramid outline - flipped upside down */}
             <path
               d="M30 5 L55 35 L5 35 Z"
               fill="none"
               stroke="currentColor"
               strokeWidth="1.5"
             />
-            
-            {/* Eye container */}
             <motion.circle
               cx="30"
               cy="20"
@@ -153,8 +152,6 @@ export default function Hero() {
                 ease: "easeInOut"
               }}
             />
-            
-            {/* Moving pupil - looking down */}
             <motion.circle
               cx="30"
               cy="20"
