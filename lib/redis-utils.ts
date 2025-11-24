@@ -9,9 +9,9 @@ export async function setValue(key: string, value: any, expireIn?: number) {
 }
 
 // Get a value
-export async function getValue(key: string) {
+export async function getValue(key: string): Promise<any> {
   const value = await redis.get(key)
-  return value ? JSON.parse(value) : null
+  return value ? JSON.parse(value as string) : null
 }
 
 // Delete a key
@@ -20,8 +20,8 @@ export async function deleteKey(key: string) {
 }
 
 // Check if key exists
-export async function keyExists(key: string) {
-  return await redis.exists(key) === 1
+export async function keyExists(key: string): Promise<boolean> {
+  return (await redis.exists(key)) === 1
 }
 
 // Set with expiration (in seconds)
