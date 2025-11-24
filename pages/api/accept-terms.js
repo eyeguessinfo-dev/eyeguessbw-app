@@ -1,38 +1,59 @@
-import { createHash } from 'crypto'
+// pages/api/accept-terms.js
+import { MongoClient } from 'mongodb'
 
-// Simple storage - replace with your database
-const acceptances = new Map()
+const uri = process.env.MONGODB_URI
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
+  let client
+
   try {
-    const { clientName, clientEmail, package, signature } = req.body
+    client = new MongoClient(uri)
+    await client.connect()
 
-    // Create unique acceptance ID
-    const acceptanceId = createHash('sha256')
-      .update(`${clientEmail}-${Date.now()}`)
-      .digest('hex')
-      .substring(0, 16)
+    const database = client.db('eyeguess')
+    const collection = database.collection('acceptances')
 
-    // Store acceptance (in production, save to database)
-    acceptances.set(acceptanceId, {
+    const { clientName, clientEmail, package: selectedPackage, signature } = req.body
+
+    if (!clientName || !clientEmail || !selectedPackage || !signature) {
+      return res.status(400).json({ error: 'All fields are required' })
+    }
+
+    const acceptance = {
       clientName,
       clientEmail,
-      package,
+      selectedPackage,
       signature,
-      acceptedAt: new Date().toISOString(),
-      ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress
+      acceptedAt: new Date(),
+      ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress,
+      userAgent: req.headers['user-agent']
+    }
+
+    const result = await collection.insertOne(acceptance)
+
+    console.log('Terms accepted and saved to MongoDB:', {
+      acceptanceId: result.insertedId,
+      clientName,
+      clientEmail,
+      selectedPackage
     })
 
-    res.status(200).json({ 
-      success: true, 
-      acceptanceId 
+    res.status(200).json({
+      success: true,
+      acceptanceId: result.insertedId,
+      message: 'Terms accepted successfully'
     })
 
   } catch (error) {
-    res.status(500).json({ error: 'Failed to record acceptance' })
+    console.error('MongoDB error:', error)
+    res.status(500).json({ error: 'Internal server error' })
+  } finally {
+    if (client) {
+      await client.close()
+    }
   }
 }
