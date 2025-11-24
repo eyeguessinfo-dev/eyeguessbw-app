@@ -1,36 +1,36 @@
 // pages/api/get-acceptances.js
-import { MongoClient } from 'mongodb'
+import { Redis } from '@upstash/redis'
 
-const uri = process.env.MONGODB_URI
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN,
+})
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
-  let client
-
   try {
-    client = new MongoClient(uri)
-    await client.connect()
+    // Get all acceptance IDs
+    const acceptanceIds = await redis.lrange('all_acceptances', 0, -1)
+    
+    // Get all acceptance data
+    const acceptances = []
+    for (const id of acceptanceIds) {
+      const acceptance = await redis.hgetall(id)
+      if (acceptance && acceptance.id) {
+        acceptances.push(acceptance)
+      }
+    }
 
-    const database = client.db('eyeguess')
-    const collection = database.collection('acceptances')
-
-    // Get all acceptances, sorted by most recent first
-    const acceptances = await collection
-      .find({})
-      .sort({ acceptedAt: -1 })
-      .toArray()
+    // Sort by most recent first
+    acceptances.sort((a, b) => new Date(b.acceptedAt) - new Date(a.acceptedAt))
 
     res.status(200).json(acceptances)
 
   } catch (error) {
-    console.error('MongoDB error:', error)
+    console.error('Error:', error)
     res.status(500).json({ error: 'Internal server error' })
-  } finally {
-    if (client) {
-      await client.close()
-    }
   }
 }

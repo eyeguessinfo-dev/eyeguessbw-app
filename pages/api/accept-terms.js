@@ -1,59 +1,49 @@
 // pages/api/accept-terms.js
-import { MongoClient } from 'mongodb'
+import { Redis } from '@upstash/redis'
 
-const uri = process.env.MONGODB_URI
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN,
+})
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
-  let client
-
   try {
-    client = new MongoClient(uri)
-    await client.connect()
-
-    const database = client.db('eyeguess')
-    const collection = database.collection('acceptances')
-
     const { clientName, clientEmail, package: selectedPackage, signature } = req.body
 
     if (!clientName || !clientEmail || !selectedPackage || !signature) {
       return res.status(400).json({ error: 'All fields are required' })
     }
 
+    const acceptanceId = `acceptance_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+
     const acceptance = {
+      id: acceptanceId,
       clientName,
       clientEmail,
       selectedPackage,
       signature,
-      acceptedAt: new Date(),
-      ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress,
-      userAgent: req.headers['user-agent']
+      acceptedAt: new Date().toISOString(),
+      ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress
     }
 
-    const result = await collection.insertOne(acceptance)
-
-    console.log('Terms accepted and saved to MongoDB:', {
-      acceptanceId: result.insertedId,
-      clientName,
-      clientEmail,
-      selectedPackage
-    })
+    // Store in Redis
+    await redis.hset(acceptanceId, acceptance)
+    
+    // Also add to a list of all acceptances
+    await redis.lpush('all_acceptances', acceptanceId)
 
     res.status(200).json({
       success: true,
-      acceptanceId: result.insertedId,
+      acceptanceId,
       message: 'Terms accepted successfully'
     })
 
   } catch (error) {
-    console.error('MongoDB error:', error)
+    console.error('Error:', error)
     res.status(500).json({ error: 'Internal server error' })
-  } finally {
-    if (client) {
-      await client.close()
-    }
   }
 }
