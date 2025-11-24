@@ -2,16 +2,28 @@ import { redis } from './redis'
 
 // Set a value with optional expiration (in seconds)
 export async function setValue(key: string, value: any, expireIn?: number) {
+  const stringValue = JSON.stringify(value)
   if (expireIn) {
-    return await redis.setex(key, expireIn, JSON.stringify(value))
+    return await redis.setex(key, expireIn, stringValue)
   }
-  return await redis.set(key, JSON.stringify(value))
+  return await redis.set(key, stringValue)
 }
 
 // Get a value
 export async function getValue(key: string): Promise<any> {
-  const value = await redis.get(key)
-  return value ? JSON.parse(value as string) : null
+  try {
+    const value = await redis.get(key)
+    // Handle different possible return types from Redis
+    if (value === null) return null
+    if (typeof value === 'string') {
+      return JSON.parse(value)
+    }
+    // If it's already an object (shouldn't happen with our setup), return as-is
+    return value
+  } catch (error) {
+    console.error('Error parsing Redis value:', error)
+    return null
+  }
 }
 
 // Delete a key
