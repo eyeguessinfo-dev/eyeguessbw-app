@@ -18,7 +18,7 @@ export async function getValue(key: string): Promise<any> {
     if (typeof value === 'string') {
       return JSON.parse(value)
     }
-    // If it's already an object (shouldn't happen with our setup), return as-is
+    // If it's already an object, return as-is
     return value
   } catch (error) {
     console.error('Error parsing Redis value:', error)
@@ -34,9 +34,4 @@ export async function deleteKey(key: string) {
 // Check if key exists
 export async function keyExists(key: string): Promise<boolean> {
   return (await redis.exists(key)) === 1
-}
-
-// Set with expiration (in seconds)
-export async function setWithExpiry(key: string, value: any, seconds: number) {
-  return await redis.setex(key, seconds, JSON.stringify(value))
 }
