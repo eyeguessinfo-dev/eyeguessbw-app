@@ -1,9 +1,10 @@
+// components/packages/PackageTiers.tsx
 'use client'
 
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
-import EnhancedPackageCard from './EnhancedPackageCard'
+import PackageFlowManager from './PackageFlowManager'
 
 const packages = [
   {
@@ -82,7 +83,7 @@ export default function PackageTiers() {
           className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto"
         >
           {packages.map((pkg, index) => (
-            <EnhancedPackageCard key={pkg.name} pkg={pkg} index={index} />
+            <PackageFlowManager key={pkg.name} pkg={pkg} index={index} />
           ))}
         </motion.div>
         
