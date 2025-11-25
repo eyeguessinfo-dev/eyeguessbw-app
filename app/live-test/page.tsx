@@ -16,7 +16,8 @@ export default async function LiveTestPage() {
       status: 'connected'
     }
 
-    await setValue('production_test', testData, 300) // 5 minutes
+    // Remove the third argument (300) since setValue only takes 2 arguments
+    await setValue('production_test', testData)
     const retrieved = await getValue('production_test')
 
     testResult = {
