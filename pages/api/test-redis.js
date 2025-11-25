@@ -1,40 +1,35 @@
 // pages/api/test-redis.js
-import { Redis } from '@upstash/redis'
-
-const redisUrl = process.env.UPSTASH_REDIS_REST_URL
-const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN
-
-let redis
-if (redisUrl && redisToken) {
-  redis = new Redis({
-    url: redisUrl,
-    token: redisToken,
-  })
-}
+import { redis, getRedis } from '../../lib/redis'
 
 export default async function handler(req, res) {
-  if (!redis) {
-    return res.status(500).json({
-      success: false,
-      error: 'Redis not configured',
-      message: 'Please set UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN environment variables',
-      environment: {
-        hasUrl: !!redisUrl,
-        hasToken: !!redisToken
-      }
-    })
+  // Ensure Redis client is available
+  let client = redis
+  if (!client) {
+    try {
+      client = getRedis()
+    } catch (err) {
+      return res.status(500).json({
+        success: false,
+        error: 'Redis not configured',
+        message: 'Please set UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN environment variables',
+        environment: {
+          hasUrl: !!process.env.UPSTASH_REDIS_REST_URL,
+          hasToken: !!process.env.UPSTASH_REDIS_REST_TOKEN
+        }
+      })
+    }
   }
 
   try {
     console.log('Testing Redis connection...')
-    
+
     // Simple SET/GET test
-    await redis.set('test_key', 'Hello from Upstash Redis!')
-    const value = await redis.get('test_key')
-    
+    await client.set('test_key', 'Hello from Upstash Redis!')
+    const value = await client.get('test_key')
+
     // List operations test
-    await redis.lpush('test_list', 'item1', 'item2', 'item3')
-    const listItems = await redis.lrange('test_list', 0, -1)
+    await client.lpush('test_list', 'item1', 'item2', 'item3')
+    const listItems = await client.lrange('test_list', 0, -1)
 
     res.status(200).json({
       success: true,
@@ -44,8 +39,8 @@ export default async function handler(req, res) {
         testList: listItems
       },
       environment: {
-        hasUrl: true,
-        hasToken: true
+        hasUrl: !!process.env.UPSTASH_REDIS_REST_URL,
+        hasToken: !!process.env.UPSTASH_REDIS_REST_TOKEN
       }
     })
   } catch (error) {
@@ -54,8 +49,8 @@ export default async function handler(req, res) {
       success: false,
       error: error.message,
       environment: {
-        hasUrl: !!redisUrl,
-        hasToken: !!redisToken
+        hasUrl: !!process.env.UPSTASH_REDIS_REST_URL,
+        hasToken: !!process.env.UPSTASH_REDIS_REST_TOKEN
       }
     })
   }

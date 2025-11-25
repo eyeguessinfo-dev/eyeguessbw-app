@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server'
-import { redis } from '@/lib/redis'
+import { redis, getRedis } from '@/lib/redis'
 
 export async function GET() {
   try {
-    await redis.set('simple_test', 'Working!')
-    const result = await redis.get('simple_test')
+    const client = redis ?? getRedis()
+    await client.set('simple_test', 'Working!')
+    const result = await client.get('simple_test')
     
     return NextResponse.json({
       success: true,

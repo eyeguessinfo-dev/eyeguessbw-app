@@ -1,13 +1,18 @@
 import { NextResponse } from 'next/server'
-import { Redis } from '@upstash/redis'
+import { redis, getRedis } from '../../../lib/redis'
 
 export async function GET() {
   try {
-    const redis = Redis.fromEnv() // This automatically uses UPSTASH_REDIS_REST_*
-    
-    await redis.set('verify_test', 'working')
-    const result = await redis.get('verify_test')
-    
+    // Prefer the shared client from lib/redis; fall back to getRedis() which
+    // throws a clear error if the environment isn't configured.
+    let client = redis
+    if (!client) {
+      client = getRedis()
+    }
+
+    await client.set('verify_test', 'working')
+    const result = await client.get('verify_test')
+
     return NextResponse.json({
       success: true,
       message: 'Redis connection successful!',

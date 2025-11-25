@@ -1,10 +1,5 @@
 // pages/api/accept-terms.js
-import { Redis } from '@upstash/redis'
-
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN,
-})
+import { redis, getRedis } from '../../lib/redis'
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -30,11 +25,28 @@ export default async function handler(req, res) {
       ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress
     }
 
+    // Ensure Redis client is available (clear error if not configured)
+    let client = redis
+    if (!client) {
+      try {
+        client = getRedis()
+      } catch (err) {
+        return res.status(500).json({
+          error: 'Redis not configured',
+          message: 'Please set UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN environment variables',
+          environment: {
+            hasUrl: !!process.env.UPSTASH_REDIS_REST_URL,
+            hasToken: !!process.env.UPSTASH_REDIS_REST_TOKEN
+          }
+        })
+      }
+    }
+
     // Store in Redis
-    await redis.hset(acceptanceId, acceptance)
-    
+    await client.hset(acceptanceId, acceptance)
+
     // Also add to a list of all acceptances
-    await redis.lpush('all_acceptances', acceptanceId)
+    await client.lpush('all_acceptances', acceptanceId)
 
     res.status(200).json({
       success: true,

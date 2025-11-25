@@ -1,16 +1,18 @@
-import { redis } from './redis'
+import { redis, getRedis } from './redis'
 
 export async function setValue(key: string, value: any, expireIn?: number) {
   const stringValue = JSON.stringify(value)
+  const client = redis ?? getRedis()
   if (expireIn) {
-    return await redis.setex(key, expireIn, stringValue)
+    return await client.setex(key, expireIn, stringValue)
   }
-  return await redis.set(key, stringValue)
+  return await client.set(key, stringValue)
 }
 
 export async function getValue(key: string): Promise<any> {
   try {
-    const value = await redis.get(key)
+    const client = redis ?? getRedis()
+    const value = await client.get(key)
     if (value === null) return null
     return JSON.parse(value as string)
   } catch (error) {
