@@ -1,80 +1,70 @@
-import { getValue } from '@/lib/redis-utils'
+'use client'
 
-export default async function TermsAcceptancesPage() {
-  let acceptances: any[] = []
-  
-  try {
-    // Try to get any terms acceptance data
-    const testData = await getValue('terms_acceptance:test')
-    if (testData) {
-      acceptances = [{
-        key: 'terms_acceptance:test',
-        ...testData
-      }]
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { setValue } from '@/lib/redis-utils'
+
+export default function TermsPage() {
+  const [accepted, setAccepted] = useState(false)
+  const router = useRouter()
+
+  const handleAccept = async () => {
+    try {
+      // Generate a unique user ID (in a real app, this would come from authentication)
+      const userId = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+      
+      // Store terms acceptance in Redis
+      const acceptanceData = {
+        accepted: true,
+        timestamp: new Date().toISOString(),
+        termsVersion: '1.0',
+        userId: userId
+      }
+
+      await setValue(`terms_acceptance:${userId}`, acceptanceData)
+      
+      setAccepted(true)
+      
+      // Redirect to home page after acceptance
+      setTimeout(() => {
+        router.push('/')
+      }, 2000)
+      
+    } catch (error) {
+      console.error('Error storing terms acceptance:', error)
     }
-  } catch (error) {
-    console.error('Error fetching acceptances:', error)
+  }
+
+  if (accepted) {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4">Terms Accepted!</h1>
+          <p>Redirecting you to the main application...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
-    <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
-      <h1 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '1.5rem' }}>
-        Terms of Service Acceptances
-      </h1>
-      
-      {acceptances.length === 0 ? (
-        <div style={{ 
-          backgroundColor: '#fef3cd', 
-          border: '1px solid #f59e0b', 
-          padding: '1rem',
-          borderRadius: '0.5rem'
-        }}>
-          <p>No acceptance records found.</p>
-          <p style={{ fontSize: '0.875rem', marginTop: '0.5rem' }}>
-            Make sure users are accepting terms and data is being stored with keys like `terms_acceptance:user_id`
-          </p>
+    <div className="min-h-screen bg-black text-white py-12 px-6">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold mb-8 text-center">Terms of Service</h1>
+        
+        <div className="bg-gray-900 p-6 rounded-lg mb-8">
+          {/* Your terms content here */}
+          <p>By using this service, you agree to our terms and conditions...</p>
+          {/* Add your actual terms content */}
         </div>
-      ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          {acceptances.map((acceptance, index) => (
-            <div key={index} style={{ 
-              border: '1px solid #e5e7eb', 
-              borderRadius: '0.5rem', 
-              padding: '1rem',
-              backgroundColor: 'white',
-              boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)'
-            }}>
-              <h3 style={{ fontWeight: '600', marginBottom: '0.5rem' }}>
-                Key: {acceptance.key}
-              </h3>
-              <div style={{ 
-                display: 'grid', 
-                gridTemplateColumns: '1fr 1fr', 
-                gap: '0.5rem',
-                fontSize: '0.875rem'
-              }}>
-                <div><strong>Accepted:</strong> {acceptance.accepted?.toString()}</div>
-                <div><strong>Timestamp:</strong> {acceptance.timestamp}</div>
-                <div><strong>Version:</strong> {acceptance.termsVersion}</div>
-                {acceptance.ipAddress && (
-                  <div><strong>IP:</strong> {acceptance.ipAddress}</div>
-                )}
-                {acceptance.userId && (
-                  <div><strong>User ID:</strong> {acceptance.userId}</div>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
 
-      <div style={{ marginTop: '2rem' }}>
-        <a 
-          href="/"
-          style={{ color: '#3b82f6', fontWeight: '500' }}
-        >
-          ← Back to Home
-        </a>
+        <div className="text-center">
+          <button
+            onClick={handleAccept}
+            className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold text-lg transition-colors"
+          >
+            I Accept the Terms
+          </button>
+        </div>
       </div>
     </div>
   )
