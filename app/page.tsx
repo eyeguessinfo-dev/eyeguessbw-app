@@ -28,7 +28,7 @@ export default function Home() {
         <SocialProof />
       </section>
       
-      {/* Footer with Centered Branding & Contact Info */}
+      {/* Admin Link - Added to Footer */}
       <footer className="border-t border-white/10 py-12">
         <div className="container mx-auto px-6 text-center">
           {/* Centered Brand */}
@@ -65,6 +65,16 @@ export default function Home() {
                   engage@eyeguess.org
                 </a>
               </div>
+            </div>
+
+            {/* Admin Link - Added Here */}
+            <div className="mt-6">
+              <a 
+                href="/admin/terms-acceptances"
+                className="text-gray-400 hover:text-white text-sm transition-colors duration-200"
+              >
+                Admin Dashboard
+              </a>
             </div>
           </div>
           
