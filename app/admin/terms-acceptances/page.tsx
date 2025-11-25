@@ -1,11 +1,10 @@
 import { getValue } from '@/lib/redis-utils'
 
 export default async function TermsAcceptancesPage() {
-  let acceptances = []
+  let acceptances: any[] = []
   
   try {
     // Try to get any terms acceptance data
-    // This is a simple approach - you might need to adjust based on how you're storing data
     const testData = await getValue('terms_acceptance:test')
     if (testData) {
       acceptances = [{
