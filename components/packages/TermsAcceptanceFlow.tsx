@@ -127,9 +127,9 @@ export default function TermsAcceptanceFlow({ package: selectedPackage, onAccept
   }
 
   return (
-    <div className="max-w-2xl mx-auto bg-transparent rounded-xl p-1 h-full flex flex-col">
+    <div className="max-w-2xl mx-auto bg-transparent rounded-xl p-1 h-full flex flex-col min-h-0">
       {/* Progress Steps - Updated for integrated flow */}
-      <div className="flex justify-between mb-6 px-2">
+      <div className="flex justify-between mb-6 px-2 flex-shrink-0">
         {[1, 2, 3].map((stepNumber) => (
           <div key={stepNumber} className="flex flex-col items-center flex-1">
             <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
@@ -152,9 +152,9 @@ export default function TermsAcceptanceFlow({ package: selectedPackage, onAccept
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="space-y-6 flex-1 flex flex-col"
+          className="space-y-6 flex-1 flex flex-col min-h-0"
         >
-          <div className="flex-1">
+          <div className="flex-1 overflow-y-auto px-2">
             <h2 className="text-2xl font-bold text-white mb-2">Client Information</h2>
             <p className="text-gray-400 mb-6">Please provide your details to continue with the {selectedPackage} package</p>
             
@@ -208,7 +208,7 @@ export default function TermsAcceptanceFlow({ package: selectedPackage, onAccept
             </div>
           </div>
 
-          <div className="flex space-x-4 pt-4">
+          <div className="flex space-x-4 pt-4 flex-shrink-0 px-2">
             <button
               onClick={handleBack}
               className="flex-1 bg-gray-700 text-white py-3 px-6 rounded-lg hover:bg-gray-600 transition-colors border border-gray-600"
@@ -231,9 +231,9 @@ export default function TermsAcceptanceFlow({ package: selectedPackage, onAccept
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="space-y-6 flex-1 flex flex-col"
+          className="space-y-6 flex-1 flex flex-col min-h-0"
         >
-          <div className="flex-1">
+          <div className="flex-1 overflow-y-auto px-2">
             <h2 className="text-2xl font-bold text-white mb-2">Final Review & Acceptance</h2>
             <p className="text-gray-400 mb-6">Review your information and accept the terms to proceed to payment</p>
             
@@ -269,7 +269,7 @@ export default function TermsAcceptanceFlow({ package: selectedPackage, onAccept
             </div>
           </div>
 
-          <div className="flex space-x-4 pt-4">
+          <div className="flex space-x-4 pt-4 flex-shrink-0 px-2">
             <button
               onClick={handleBack}
               className="flex-1 bg-gray-700 text-white py-3 px-6 rounded-lg hover:bg-gray-600 transition-colors border border-gray-600"
@@ -302,7 +302,7 @@ export default function TermsAcceptanceFlow({ package: selectedPackage, onAccept
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="text-center space-y-6 flex-1 flex flex-col justify-center"
+          className="text-center space-y-6 flex-1 flex flex-col justify-center min-h-0 px-2"
         >
           <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto border border-green-500/30">
             <svg className="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

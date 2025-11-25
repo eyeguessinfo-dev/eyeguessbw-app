@@ -207,13 +207,15 @@ export default function PackageFlowManager({ pkg, index }: PackageFlowManagerPro
                   </div>
                 </div>
                 
-                {/* Terms Acceptance Flow */}
+                {/* Terms Acceptance Flow - UPDATED FOR SCROLLING */}
                 <div className="flex-1 overflow-hidden">
-                  <TermsAcceptanceFlow 
-                    package={pkg.name}
-                    onAccept={handleTermsAccept}
-                    onBack={handleBack}
-                  />
+                  <div className="h-full overflow-y-auto">
+                    <TermsAcceptanceFlow 
+                      package={pkg.name}
+                      onAccept={handleTermsAccept}
+                      onBack={handleBack}
+                    />
+                  </div>
                 </div>
               </div>
             )}
