@@ -1,28 +1,20 @@
 import { NextResponse } from 'next/server'
-import { redis, getRedis } from '@/lib/redis'
+import { redis } from '@/lib/redis'
 
 export async function GET() {
   try {
-    // Ensure client exists
-    const client = redis ?? getRedis()
-
-    // Simple set and get
-    await client.set('simple_test', 'Hello Redis!')
-    const result = await client.get('simple_test')
+    await redis.set('simple_test', 'Working!')
+    const result = await redis.get('simple_test')
     
     return NextResponse.json({
       success: true,
-      message: 'Redis is working!',
-      data: result
+      data: result,
+      message: 'Redis connection successful!'
     })
   } catch (error: any) {
     return NextResponse.json({
       success: false,
-      error: error.message,
-      env: {
-        url: process.env.UPSTASH_REDIS_REST_URL ? 'Set' : 'Missing',
-        token: process.env.UPSTASH_REDIS_REST_TOKEN ? 'Set' : 'Missing'
-      }
+      error: error.message
     }, { status: 500 })
   }
 }
