@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server'
-import { redis } from '@/lib/redis'
+import { getRedis } from '@/lib/redis'
 
 export async function GET() {
   try {
     // Get all keys that match terms acceptance pattern
+    const redis = getRedis()
     const keys = await redis.keys('terms_acceptance:*')
     
     const acceptances = []
