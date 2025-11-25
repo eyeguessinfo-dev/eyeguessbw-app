@@ -14,32 +14,51 @@ export default function TermsAcceptanceFlow({ package: selectedPackage, onAccept
   const [accepted, setAccepted] = useState(false)
   const [redirecting, setRedirecting] = useState(false)
 
-  // Stripe URLs for different packages
+  // Replace with your actual Stripe URLs
   const stripeUrls = {
     'Basic': 'https://buy.stripe.com/14A3cwbUg8xZ88b47D9IQ00',
     'Pro': 'https://buy.stripe.com/aFa00kbUg29BfADcE99IQ01', 
     'Enterprise': 'https://buy.stripe.com/3cI6oIbUg01t1JN1Zv9IQ02'
   }
 
-  // Redirect to Stripe after acceptance
-  useEffect(() => {
-    if (accepted && step === 3) {
-      const timer = setTimeout(() => {
-        setRedirecting(true)
-        // Redirect to Stripe checkout
-        const stripeUrl = stripeUrls[selectedPackage] || 'https://buy.stripe.com/test_00g3f0bNBeKZ0wg5kk'
-        window.location.href = stripeUrl
-      }, 3000)
-      
-      return () => clearTimeout(timer)
-    }
-  }, [accepted, step, selectedPackage])
+  // Replace with your Google Apps Script URL
+  const googleScriptUrl = 'https://script.google.com/macros/s/AKfycbx47kOIJ8RjXs2aV-VqDEbZXjvunLo3Fx66hhezi3aTga_7a4c697Domsx7DCO2t5jY/exec'
 
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     })
+  }
+
+  const storeInGoogleSheets = async () => {
+    const stripeUrl = stripeUrls[selectedPackage] || 'https://buy.stripe.com/test_00g3f0bNBeKZ0wg5kk'
+    
+    const response = await fetch(googleScriptUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        clientName: formData.clientName,
+        clientEmail: formData.clientEmail,
+        package: selectedPackage,
+        signature: formData.signature || formData.clientName,
+        stripeUrl: stripeUrl,
+        timestamp: new Date().toISOString()
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to store in Google Sheets');
+    }
+
+    const result = await response.json();
+    if (!result.success) {
+      throw new Error(result.error || 'Unknown error from Google Sheets');
+    }
+
+    return result;
   }
 
   const handleAcceptTerms = async () => {
@@ -51,33 +70,29 @@ export default function TermsAcceptanceFlow({ package: selectedPackage, onAccept
     setLoading(true)
     
     try {
-      const response = await fetch('/api/accept-terms', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          clientName: formData.clientName,
-          clientEmail: formData.clientEmail,
-          package: selectedPackage,
-          signature: formData.signature || formData.clientName, // Use name as signature if empty
-          timestamp: new Date().toISOString(),
-          userId: `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
-        })
-      })
-
-      const data = await response.json()
-
-      if (data.success) {
-        setAccepted(true)
-        setStep(3)
-        onAccept?.(data.acceptanceId)
-      } else {
-        alert('Failed to accept terms: ' + data.error)
-      }
+      // Store in Google Sheets
+      await storeInGoogleSheets()
+      
+      setAccepted(true)
+      setStep(3)
+      onAccept?.(Date.now().toString())
+      
+      // Redirect to Stripe after 2 seconds
+      setTimeout(() => {
+        setRedirecting(true)
+        const stripeUrl = stripeUrls[selectedPackage] || 'https://buy.stripe.com/test_00g3f0bNBeKZ0wg5kk'
+        window.location.href = stripeUrl
+      }, 2000)
+      
     } catch (error) {
-      console.error('Error accepting terms:', error)
-      alert('An error occurred while accepting terms')
+      console.error('Error storing data:', error)
+      // Even if storage fails, still proceed to Stripe but show warning
+      alert('Note: Data storage failed, but proceeding to payment...')
+      setAccepted(true)
+      setStep(3)
+      setTimeout(() => {
+        window.location.href = stripeUrls[selectedPackage]
+      }, 2000)
     } finally {
       setLoading(false)
     }
@@ -181,23 +196,11 @@ export default function TermsAcceptanceFlow({ package: selectedPackage, onAccept
           <div className="bg-gray-50 rounded-lg p-4 max-h-60 overflow-y-auto">
             <h3 className="font-semibold mb-4">Service Agreement</h3>
             <div className="text-sm text-gray-700 space-y-3">
-              <p>
-                By accepting these terms, you agree to our service conditions for the <strong>{selectedPackage}</strong> package.
-              </p>
-              <p>
-                <strong>Client Information:</strong><br />
-                Name: {formData.clientName}<br />
-                Email: {formData.clientEmail}
-              </p>
-              <p>
-                This agreement outlines the terms of service, payment obligations, and mutual responsibilities between EyeGuess and the client.
-              </p>
-              <p>
-                All services are provided on a subscription basis and can be canceled according to our cancellation policy.
-              </p>
-              <p>
-                By proceeding, you acknowledge that you have read and understood these terms and will be redirected to Stripe for secure payment processing.
-              </p>
+              <p>By accepting these terms, you agree to our service conditions for the <strong>{selectedPackage}</strong> package.</p>
+              <p><strong>Client Information:</strong><br />Name: {formData.clientName}<br />Email: {formData.clientEmail}</p>
+              <p>This agreement outlines the terms of service, payment obligations, and mutual responsibilities between EyeGuess and the client.</p>
+              <p>All services are provided on a subscription basis and can be canceled according to our cancellation policy.</p>
+              <p>By proceeding, you acknowledge that you have read and understood these terms and will be redirected to Stripe for secure payment processing.</p>
             </div>
           </div>
 
@@ -249,7 +252,7 @@ export default function TermsAcceptanceFlow({ package: selectedPackage, onAccept
           )}
           
           <p className="text-sm text-gray-500">
-            A confirmation has been sent to {formData.clientEmail}
+            Your information has been recorded and a confirmation will be sent to {formData.clientEmail}
           </p>
 
           <button
