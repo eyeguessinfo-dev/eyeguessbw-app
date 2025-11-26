@@ -87,7 +87,6 @@ export default function PackageFlowManager({ pkg, index }: PackageFlowManagerPro
           <h3 className="text-lg font-semibold text-white mb-2">📦 Selected Plan</h3>
           <p className="text-blue-400 font-medium">{pkg.name} • {pkg.price}{pkg.period}</p>
         </div>
-
         {/* Key Agreement Sections */}
         <div className="space-y-6">
           {/* Advisory Nature */}

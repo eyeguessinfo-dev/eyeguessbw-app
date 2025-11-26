@@ -279,7 +279,7 @@ export default function EnhancedPackageCard({ pkg, index }: EnhancedPackageCardP
                     <p className="text-blue-400 font-medium">{pkg.name} • {pkg.price}{pkg.period}</p>
                   </div>
 
-                  {/* Your existing legal sections */}
+                  {/* Comprehensive Legal Sections */}
                   <div className="space-y-6">
                     {/* 1. Advisory Nature Section */}
                     <div className="border-2 border-gray-700 rounded-xl p-5 bg-gray-800/30">
@@ -312,17 +312,390 @@ export default function EnhancedPackageCard({ pkg, index }: EnhancedPackageCardP
                           </ul>
                         </div>
 
-                        {/* ... Rest of your existing service agreement content ... */}
-                        {/* Include all your existing legal sections here */}
+                        <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+                          <h5 className="text-blue-400 font-semibold mb-2">💡 Our Commitment:</h5>
+                          <ul className="text-sm space-y-2">
+                            <li className="flex items-start gap-2">
+                              <span className="text-blue-400 mt-1">•</span>
+                              <span>We provide our best professional advice based on proven frameworks and industry experience</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <span className="text-blue-400 mt-1">•</span>
+                              <span>We're transparent about the advisory nature of our services from the beginning</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <span className="text-blue-400 mt-1">•</span>
+                              <span>We focus on providing actionable strategies and measurable improvements to your partnership approach</span>
+                            </li>
+                          </ul>
+                        </div>
                       </div>
                     </div>
 
-                    {/* Add all your existing legal sections (2-6) here */}
-                    {/* 2. Liability Limitation Section */}
-                    {/* 3. Dispute Resolution Section */} 
-                    {/* 4. Subscription Terms Section */}
-                    {/* 5. Data Protection & Privacy Section */}
-                    {/* 6. Intellectual Property Section */}
+                    {/* 2. Subscription & Billing Terms */}
+                    <div className="border-2 border-gray-700 rounded-xl p-5 bg-gray-800/30">
+                      <h4 className="text-white font-semibold text-lg mb-4">💰 Subscription & Billing Terms</h4>
+                      
+                      <div className="space-y-4 text-gray-300">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4">
+                            <h5 className="text-green-400 font-semibold mb-2">✅ 30-Day Satisfaction Guarantee</h5>
+                            <ul className="text-sm space-y-2">
+                              <li className="flex items-start gap-2">
+                                <span className="text-green-400 mt-1">•</span>
+                                <span><strong>Full Refund:</strong> Get 100% refund within first 30 days if not satisfied</span>
+                              </li>
+                              <li className="flex items-start gap-2">
+                                <span className="text-green-400 mt-1">•</span>
+                                <span><strong>Written Request:</strong> Submit detailed explanation of dissatisfaction</span>
+                              </li>
+                              <li className="flex items-start gap-2">
+                                <span className="text-green-400 mt-1">•</span>
+                                <span><strong>No Questions Asked:</strong> We respect your decision and process promptly</span>
+                              </li>
+                            </ul>
+                          </div>
+                          
+                          <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+                            <h5 className="text-blue-400 font-semibold mb-2">🔄 Billing Cycle</h5>
+                            <ul className="text-sm space-y-2">
+                              <li className="flex items-start gap-2">
+                                <span className="text-blue-400 mt-1">•</span>
+                                <span><strong>Monthly Billing:</strong> Charged in advance each month</span>
+                              </li>
+                              <li className="flex items-start gap-2">
+                                <span className="text-blue-400 mt-1">•</span>
+                                <span><strong>Auto-Renewal:</strong> Continues until you cancel</span>
+                              </li>
+                              <li className="flex items-start gap-2">
+                                <span className="text-blue-400 mt-1">•</span>
+                                <span><strong>Cancel Anytime:</strong> 30-day notice for cancellation</span>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+
+                        <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
+                          <h5 className="text-red-400 font-semibold mb-2">🚫 Refund Policy Limitations</h5>
+                          <ul className="text-sm space-y-2">
+                            <li className="flex items-start gap-2">
+                              <span className="text-red-400 mt-1">•</span>
+                              <span><strong>No Refunds After 30 Days:</strong> The satisfaction guarantee applies only to the first 30 days of service</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <span className="text-red-400 mt-1">•</span>
+                              <span><strong>Custom Work Exclusion:</strong> No refunds for custom framework development or implementation work</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <span className="text-red-400 mt-1">•</span>
+                              <span><strong>Services Rendered:</strong> No refunds for services already provided or consultations already conducted</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <span className="text-red-400 mt-1">•</span>
+                              <span><strong>Third-Party Costs:</strong> No refunds for third-party tool subscriptions or external costs incurred</span>
+                            </li>
+                          </ul>
+                        </div>
+
+                        <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-4">
+                          <h5 className="text-amber-400 font-semibold mb-2">📝 Important Billing Details</h5>
+                          <ul className="text-sm space-y-2">
+                            <li className="flex items-start gap-2">
+                              <span className="text-amber-400 mt-1">•</span>
+                              <span><strong>Price Changes:</strong> We provide 30-day notice for any price increases</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <span className="text-amber-400 mt-1">•</span>
+                              <span><strong>Service Continuity:</strong> Services continue during cancellation notice period</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <span className="text-amber-400 mt-1">•</span>
+                              <span><strong>No Prorated Refunds:</strong> We don't provide partial refunds for mid-month cancellations</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <span className="text-amber-400 mt-1">•</span>
+                              <span><strong>Payment Methods:</strong> Keep your payment information current to avoid service interruption</span>
+                            </li>
+                          </ul>
+                        </div>
+
+                        <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+                          <h5 className="text-blue-400 font-semibold mb-2">💡 Transparent Pricing</h5>
+                          <p className="text-sm">
+                            We believe in clear, straightforward pricing. There are no hidden fees, setup charges, or unexpected costs. 
+                            The price you see is the price you pay, and we'll always notify you well in advance of any changes.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 3. Intellectual Property Rights */}
+                    <div className="border-2 border-gray-700 rounded-xl p-5 bg-gray-800/30">
+                      <h4 className="text-white font-semibold text-lg mb-4">🔒 Intellectual Property Rights</h4>
+                      
+                      <div className="space-y-4 text-gray-300">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+                            <h5 className="text-blue-400 font-semibold mb-2">🛡️ Our IP Protection</h5>
+                            <ul className="text-sm space-y-2">
+                              <li className="flex items-start gap-2">
+                                <span className="text-blue-400 mt-1">•</span>
+                                <span><strong>Frameworks & Methodologies:</strong> We retain all rights to our partnership frameworks, tools, and methodologies</span>
+                              </li>
+                              <li className="flex items-start gap-2">
+                                <span className="text-blue-400 mt-1">•</span>
+                                <span><strong>License Grant:</strong> You receive a limited license to use our frameworks during active subscription</span>
+                              </li>
+                              <li className="flex items-start gap-2">
+                                <span className="text-blue-400 mt-1">•</span>
+                                <span><strong>No Transfer of Ownership:</strong> Services provided do not transfer IP ownership</span>
+                              </li>
+                            </ul>
+                          </div>
+                          
+                          <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4">
+                            <h5 className="text-green-400 font-semibold mb-2">✅ Your IP Protection</h5>
+                            <ul className="text-sm space-y-2">
+                              <li className="flex items-start gap-2">
+                                <span className="text-green-400 mt-1">•</span>
+                                <span><strong>Your Business Data:</strong> You retain all rights to your confidential business information</span>
+                              </li>
+                              <li className="flex items-start gap-2">
+                                <span className="text-green-400 mt-1">•</span>
+                                <span><strong>Pre-existing IP:</strong> Your existing intellectual property remains yours</span>
+                              </li>
+                              <li className="flex items-start gap-2">
+                                <span className="text-green-400 mt-1">•</span>
+                                <span><strong>Mutual Confidentiality:</strong> Both parties agree to protect each other's confidential information</span>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+
+                        <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-4">
+                          <h5 className="text-amber-400 font-semibold mb-2">⚠️ IP Usage Restrictions</h5>
+                          <ul className="text-sm space-y-2">
+                            <li className="flex items-start gap-2">
+                              <span className="text-amber-400 mt-1">•</span>
+                              <span><strong>No Reselling:</strong> You may not resell, license, or distribute our frameworks to third parties</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <span className="text-amber-400 mt-1">•</span>
+                              <span><strong>No Reverse Engineering:</strong> You may not reverse engineer or copy our methodologies</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <span className="text-amber-400 mt-1">•</span>
+                              <span><strong>License Termination:</strong> Your license to use our frameworks terminates when your subscription ends</span>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 4. Data Protection & Privacy */}
+                    <div className="border-2 border-gray-700 rounded-xl p-5 bg-gray-800/30">
+                      <h4 className="text-white font-semibold text-lg mb-4">🛡️ Data Protection & Privacy</h4>
+                      
+                      <div className="space-y-4 text-gray-300">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+                            <h5 className="text-blue-400 font-semibold mb-2">🛡️ Your Data Rights</h5>
+                            <ul className="text-sm space-y-2">
+                              <li className="flex items-start gap-2">
+                                <span className="text-blue-400 mt-1">•</span>
+                                <span><strong>Data Ownership:</strong> You retain all rights to your business data</span>
+                              </li>
+                              <li className="flex items-start gap-2">
+                                <span className="text-blue-400 mt-1">•</span>
+                                <span><strong>Access & Portability:</strong> You can request your data at any time</span>
+                              </li>
+                              <li className="flex items-start gap-2">
+                                <span className="text-blue-400 mt-1">•</span>
+                                <span><strong>Data Deletion:</strong> Request deletion of your data upon termination</span>
+                              </li>
+                            </ul>
+                          </div>
+                          
+                          <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+                            <h5 className="text-blue-400 font-semibold mb-2">🔐 Our Security Commitments</h5>
+                            <ul className="text-sm space-y-2">
+                              <li className="flex items-start gap-2">
+                                <span className="text-blue-400 mt-1">•</span>
+                                <span><strong>Reasonable Security:</strong> We implement industry-standard protections</span>
+                              </li>
+                              <li className="flex items-start gap-2">
+                                <span className="text-blue-400 mt-1">•</span>
+                                <span><strong>Data Encryption:</strong> Sensitive data is encrypted in transit and at rest</span>
+                              </li>
+                              <li className="flex items-start gap-2">
+                                <span className="text-blue-400 mt-1">•</span>
+                                <span><strong>Access Controls:</strong> Strict internal access controls to your data</span>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+
+                        <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-4">
+                          <h5 className="text-amber-400 font-semibold mb-2">⚠️ Important Limitations</h5>
+                          <ul className="text-sm space-y-2">
+                            <li className="flex items-start gap-2">
+                              <span className="text-amber-400 mt-1">•</span>
+                              <span><strong>No Absolute Security:</strong> We cannot guarantee 100% data security against sophisticated attacks</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <span className="text-amber-400 mt-1">•</span>
+                              <span><strong>Your Backup Responsibility:</strong> You are responsible for maintaining your own data backups</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <span className="text-amber-400 mt-1">•</span>
+                              <span><strong>Third-Party Services:</strong> We're not liable for data breaches in third-party tools we recommend</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <span className="text-amber-400 mt-1">•</span>
+                              <span><strong>Force Majeure:</strong> Not liable for data loss due to events beyond our reasonable control</span>
+                            </li>
+                          </ul>
+                        </div>
+
+                        <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4">
+                          <h5 className="text-green-400 font-semibold mb-2">📋 Data Usage & Analytics</h5>
+                          <p className="text-sm">
+                            We may use <strong>anonymized, aggregated data</strong> for improving our services, creating industry insights, 
+                            and developing new frameworks. This data cannot be traced back to your specific business.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 5. Limitation of Liability */}
+                    <div className="border-2 border-gray-700 rounded-xl p-5 bg-gray-800/30">
+                      <h4 className="text-white font-semibold text-lg mb-4">⚖️ Limitation of Liability</h4>
+                      
+                      <div className="space-y-4 text-gray-300">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
+                            <h5 className="text-red-400 font-semibold mb-2">🚫 Liability Cap</h5>
+                            <p className="text-sm">
+                              <strong>Our total liability for any claims</strong> related to these services is limited to the <strong>total fees you've paid us in the 6 months immediately preceding the claim</strong>.
+                            </p>
+                          </div>
+                          
+                          <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
+                            <h5 className="text-red-400 font-semibold mb-2">🚫 No Consequential Damages</h5>
+                            <p className="text-sm">
+                              We are <strong>not liable for any indirect, special, incidental, or consequential damages</strong>, including lost profits, lost revenue, or business interruption.
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="bg-purple-500/10 border border-purple-500/20 rounded-lg p-4">
+                          <h5 className="text-purple-400 font-semibold mb-2">🌪️ Force Majeure Protection</h5>
+                          <p className="text-sm">
+                            We are <strong>not liable for any failure or delay in performance</strong> due to circumstances beyond our reasonable control, 
+                            including but not limited to: acts of God, war, terrorism, government restrictions, pandemics, internet outages, 
+                            power failures, or any other events that could not be prevented with reasonable care.
+                          </p>
+                        </div>
+
+                        <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+                          <h5 className="text-blue-400 font-semibold mb-2">✅ Fair Protection:</h5>
+                          <p className="text-sm">
+                            This limitation represents a fair balance - it protects us from catastrophic claims while ensuring you have recourse for genuine service failures. The cap is based on recent fees paid, making it proportional to the services received.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 6. Dispute Resolution & Arbitration */}
+                    <div className="border-2 border-gray-700 rounded-xl p-5 bg-gray-800/30">
+                      <h4 className="text-white font-semibold text-lg mb-4">⚖️ Dispute Resolution & Arbitration</h4>
+                      
+                      <div className="space-y-4 text-gray-300">
+                        <div className="bg-purple-500/10 border border-purple-500/20 rounded-lg p-4">
+                          <h5 className="text-purple-400 font-semibold mb-2">🔄 Step-by-Step Resolution Process</h5>
+                          <div className="space-y-3">
+                            <div className="flex items-start gap-3">
+                              <div className="bg-purple-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mt-0.5">1</div>
+                              <div>
+                                <strong className="text-white">Direct Negotiation (30 days):</strong> Both parties agree to attempt to resolve disputes through good-faith negotiation
+                              </div>
+                            </div>
+                            <div className="flex items-start gap-3">
+                              <div className="bg-purple-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mt-0.5">2</div>
+                              <div>
+                                <strong className="text-white">Mediation (Optional):</strong> If negotiation fails, we may pursue mediation with a neutral third party
+                              </div>
+                            </div>
+                            <div className="flex items-start gap-3">
+                              <div className="bg-purple-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mt-0.5">3</div>
+                              <div>
+                                <strong className="text-white">Binding Arbitration:</strong> If resolution isn't reached, disputes will be settled by binding arbitration
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-4">
+                            <h5 className="text-amber-400 font-semibold mb-2">🎯 Arbitration Details</h5>
+                            <ul className="text-sm space-y-2">
+                              <li className="flex items-start gap-2">
+                                <span className="text-amber-400 mt-1">•</span>
+                                <span><strong>Binding & Final:</strong> Arbitration decisions are final and enforceable in court</span>
+                              </li>
+                              <li className="flex items-start gap-2">
+                                <span className="text-amber-400 mt-1">•</span>
+                                <span><strong>Efficient:</strong> Typically faster and less expensive than court proceedings</span>
+                              </li>
+                              <li className="flex items-start gap-2">
+                                <span className="text-amber-400 mt-1">•</span>
+                                <span><strong>Expert Arbitrators:</strong> Cases are heard by professionals with relevant expertise</span>
+                              </li>
+                            </ul>
+                          </div>
+                          
+                          <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-4">
+                            <h5 className="text-amber-400 font-semibold mb-2">🚫 What You're Waiving</h5>
+                            <ul className="text-sm space-y-2">
+                              <li className="flex items-start gap-2">
+                                <span className="text-amber-400 mt-1">•</span>
+                                <span><strong>Jury Trials:</strong> You waive your right to a jury trial</span>
+                              </li>
+                              <li className="flex items-start gap-2">
+                                <span className="text-amber-400 mt-1">•</span>
+                                <span><strong>Class Actions:</strong> You waive your right to participate in class actions</span>
+                              </li>
+                              <li className="flex items-start gap-2">
+                                <span className="text-amber-400 mt-1">•</span>
+                                <span><strong>Court Proceedings:</strong> You waive your right to sue in court</span>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+
+                        <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+                          <h5 className="text-blue-400 font-semibold mb-2">💡 Why This Benefits You:</h5>
+                          <ul className="text-sm space-y-2">
+                            <li className="flex items-start gap-2">
+                              <span className="text-blue-400 mt-1">•</span>
+                              <span><strong>Lower Costs:</strong> Arbitration is typically more affordable than court cases</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <span className="text-blue-400 mt-1">•</span>
+                              <span><strong>Faster Resolution:</strong> Disputes are resolved in months rather than years</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <span className="text-blue-400 mt-1">•</span>
+                              <span><strong>Expert Decisions:</strong> Arbitrators understand business and service disputes</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <span className="text-blue-400 mt-1">•</span>
+                              <span><strong>Confidentiality:</strong> Proceedings are private, protecting your business information</span>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
 
                     {/* Complete Legal Agreement Section */}
                     <div className="bg-gray-800/50 rounded-xl p-4 border border-gray-700">
