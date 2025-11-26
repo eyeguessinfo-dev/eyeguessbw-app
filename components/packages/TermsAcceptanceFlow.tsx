@@ -27,44 +27,51 @@ export default function TermsAcceptanceFlow({ package: selectedPackage, onAccept
     'Full Advisory': 'https://buy.stripe.com/3cI6oIbUg01t1JN1Zv9IQ02'
   }
 
-  // Replace with your Google Apps Script URL
-  const googleScriptUrl = 'https://script.google.com/macros/s/AKfycbx47kOIJ8RjXs2aV-VqDEbZXjvunLo3Fx66hhezi3aTga_7a4c697Domsx7DCO2t5jY/exec'
+  // Google Forms submission function
+  const submitToGoogleForm = async () => {
+    // Create form data
+    const formDataToSubmit = new URLSearchParams();
+    
+    // TODO: Replace these entry IDs with your actual Google Form field IDs
+    // Get these from your pre-filled link or by inspecting the form
+    formDataToSubmit.append('entry.1220544924', formData.clientName);        // Client Name
+    formDataToSubmit.append('entry.1670307896', formData.clientEmail);       // Client Email  
+    formDataToSubmit.append('entry.1951489488', formData.signature || formData.clientName); // Digital Signature
+
+    // Your Google Form submission URL
+    const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSd2be0jsTM-leR3SM9Qp2pn2Rhz7akK9boeorXvViHxOOSBPA/formResponse';
+
+    console.log('📤 Submitting to Google Form:', {
+      clientName: formData.clientName,
+      clientEmail: formData.clientEmail,
+      package: selectedPackage, // Still logging package for debugging
+      signature: formData.signature,
+      stripeUrl: stripeUrls[selectedPackage as keyof typeof stripeUrls] // Still logging for debugging
+    });
+
+    try {
+      // Submit to Google Form
+      const response = await fetch(formUrl, {
+        method: 'POST',
+        body: formDataToSubmit,
+        mode: 'no-cors' // Important: no-cors mode for Google Forms
+      });
+
+      // With no-cors, we can't read the response, but the submission should work
+      console.log('✅ Form submission sent (no-cors mode)');
+      return { success: true };
+
+    } catch (error) {
+      console.error('❌ Form submission error:', error);
+      throw new Error('Failed to submit form data');
+    }
+  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     })
-  }
-
-  const storeInGoogleSheets = async () => {
-    const stripeUrl = stripeUrls[selectedPackage as keyof typeof stripeUrls] || 'https://buy.stripe.com/test_00g3f0bNBeKZ0wg5kk'
-    
-    const response = await fetch(googleScriptUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        clientName: formData.clientName,
-        clientEmail: formData.clientEmail,
-        package: selectedPackage,
-        signature: formData.signature || formData.clientName,
-        stripeUrl: stripeUrl,
-        timestamp: new Date().toISOString()
-      })
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to store in Google Sheets');
-    }
-
-    const result = await response.json();
-    if (!result.success) {
-      throw new Error(result.error || 'Unknown error from Google Sheets');
-    }
-
-    return result;
   }
 
   const handleAcceptTerms = async () => {
@@ -76,8 +83,8 @@ export default function TermsAcceptanceFlow({ package: selectedPackage, onAccept
     setLoading(true)
     
     try {
-      // Store in Google Sheets
-      await storeInGoogleSheets()
+      // Submit to Google Form
+      await submitToGoogleForm();
       
       setAccepted(true)
       setStep(3)
@@ -92,20 +99,14 @@ export default function TermsAcceptanceFlow({ package: selectedPackage, onAccept
       
     } catch (error) {
       console.error('Error storing data:', error)
-      // Enhanced error handling
-      const shouldProceed = confirm(
-        'Note: We encountered an issue saving your information, but you can still proceed to payment. ' +
-        'Would you like to continue to Stripe checkout?'
-      )
-      
-      if (shouldProceed) {
-        setAccepted(true)
-        setStep(3)
-        setTimeout(() => {
-          const stripeUrl = stripeUrls[selectedPackage as keyof typeof stripeUrls] || 'https://buy.stripe.com/test_00g3f0bNBeKZ0wg5kk'
-          window.location.href = stripeUrl
-        }, 2000)
-      }
+      // Even if form submission fails, proceed to Stripe
+      alert('Note: Form submission failed, but proceeding to payment...')
+      setAccepted(true)
+      setStep(3)
+      setTimeout(() => {
+        const stripeUrl = stripeUrls[selectedPackage as keyof typeof stripeUrls] || 'https://buy.stripe.com/test_00g3f0bNBeKZ0wg5kk'
+        window.location.href = stripeUrl
+      }, 2000)
     } finally {
       setLoading(false)
     }
