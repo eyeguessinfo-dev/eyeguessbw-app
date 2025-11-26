@@ -192,7 +192,7 @@ export default function TermsAcceptanceFlow({ package: selectedPackage, onAccept
 
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Digital Signature
+                  Digital Signature *
                 </label>
                 <input
                   type="text"
@@ -264,7 +264,7 @@ export default function TermsAcceptanceFlow({ package: selectedPackage, onAccept
                   <li>You accept the liability limitations and dispute resolution process</li>
                 </ul>
                 <p className="text-amber-400 font-medium mt-4">
-                  You will be redirected to Stripe for secure payment processing after acceptance.
+                  You will be redirected for secure payment processing after acceptance.
                 </p>
               </div>
             </div>
